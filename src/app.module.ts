@@ -4,8 +4,8 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGO_URI, {
-      useFindAndModify: false
+    MongooseModule.forRoot(process.env.MONGO_URL, {
+      dbName: 'wish_db'
     }),
     AuthModule
   ]
