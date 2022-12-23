@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { type } from 'os';
 
+export type UserDocument = User & Document;
 @Schema()
 export class User {
   @Prop()
