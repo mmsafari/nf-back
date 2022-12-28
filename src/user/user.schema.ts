@@ -1,19 +1,26 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { type } from 'os';
+import * as mongoose from 'mongoose';
+import * as bcrypt from 'bcrypt';
 
-export type UserDocument = User & Document;
-@Schema()
-export class User {
-  @Prop()
-  userId: string;
-
-  @Prop()
-  email: string;
-
-  @Prop()
-  age: number;
-
-  @Prop([String])
-  favoriteFoods: string[];
-}
-export const UserSchema = SchemaFactory.createForClass(User);
+export const UserSchema = new mongoose.Schema({
+  username: String,
+  password: String,
+  f_name: String,
+  l_name: String,
+  image: String,
+  created: {
+    type: Date,
+    default: Date.now
+  }
+});
+UserSchema.pre('save', async function (next: any) {
+  try {
+    if (!this.isModified('password')) {
+      return next();
+    }
+    const hashed = await bcrypt.hash(this['password'], 10);
+    this['password'] = hashed;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+});
