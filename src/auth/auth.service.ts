@@ -1,22 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { sign } from 'jsonwebtoken';
+import { UserService } from 'src/user/user.service';
 
 @Injectable({})
 export class AuthService {
-  signin() {
-    const numberD = 5;
-    return {
-      success: true,
-      msg: 'signed in',
-      Token: `there is a ${numberD}`
-    };
+  constructor(private userService: UserService) {}
+
+  //return a Token(JWT)
+  async signPayload(payload: any) {
+    return sign(payload, 'secretKey', { expiresIn: '365d' });
   }
-  signup() {
-    return {
-      success: true,
-      msg: 'signed up',
-      Token: 'eyJhbGciOiJSUzI1NiIsImtpZ....'
-    };
+  //check if a user exict with this payload(username)
+  async validateUser(payload: any) {
+    return await this.userService.findByPayload(payload);
   }
 }
-
-const service = new AuthService();
