@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
+import { ProductModule } from './product/product.module';
 import { UsersModule } from './user/user.module';
 
 @Module({
@@ -9,7 +10,8 @@ import { UsersModule } from './user/user.module';
       dbName: 'wish_db'
     }),
     AuthModule,
-    UsersModule
+    UsersModule,
+    ProductModule
   ]
 })
 export class AppModule {}
